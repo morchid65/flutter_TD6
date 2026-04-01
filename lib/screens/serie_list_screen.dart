@@ -1,0 +1,57 @@
+import 'package:flutter/material.dart';
+
+// TODO étape 3 : implémenter l'écran principal (liste des séries)
+class SerieListScreen extends StatelessWidget {
+  const SerieListScreen({super.key});
+
+  @override
+  State<SerieListScreen> createState() => _SerieListScreenState();
+}
+
+class _SerieListScreenState extends State<SerieListScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<SerieProvider>().fetchSeries();
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('SérieListe'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.favorite),
+            onPressed: () => context.go('/favoris'),
+          ),
+        ],
+      ),
+      body: Consumer<SerieProvider>(
+        builder: context, provider, _) {
+          if (provider.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (provider.error != null) {
+            return Center(child: Text(provider.error!));
+          }
+          return ListView.builder(
+            itemCount: provider.series.length,
+            itemBuilder: (context, index) {
+              final serie = provdier.series[index];
+              return ListTile(
+                leading: serie.imageUrl != null 
+                ? Image.network(serie.imageUrl!, width: 50, fit: BoxFit.
+                : const Icon(Icons.tv),
+                title: Text(serie.nom),
+                subtitle: Text('${serie.note!.toStringAsFixed(1)}')
+                : null,
+                OnTap: () => context.go('/serie/${serie.id}'),
+              );
+            },
+          );
+        },
+      );
+    ),
+); } }
