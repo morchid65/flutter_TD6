@@ -1,4 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:provider/provider.dart'; 
+import 'package:go_router/go_router.dart'; 
+import '../providers/serie_provider.dart'; 
 
 // TODO étape 3 : implémenter l'écran principal (liste des séries)
 class SerieListScreen extends StatelessWidget {
@@ -42,7 +45,7 @@ class _SerieListScreenState extends State<SerieListScreen> {
               final serie = provdier.series[index];
               return ListTile(
                 leading: serie.imageUrl != null 
-                ? Image.network(serie.imageUrl!, width: 50, fit: BoxFit.
+                ? Image.network(serie.imageUrl!, width: 50, fit: BoxFit.cover)
                 : const Icon(Icons.tv),
                 title: Text(serie.nom),
                 subtitle: Text('${serie.note!.toStringAsFixed(1)}')
@@ -52,6 +55,7 @@ class _SerieListScreenState extends State<SerieListScreen> {
             },
           );
         },
-      );
-    ),
-); } }
+      ),
+    ); 
+  } 
+}
