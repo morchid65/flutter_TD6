@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:providers/favoris_provider.dart';
+import 'package:providers/serie_provider.dart.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'router.dart';
 
@@ -13,7 +14,7 @@ void main() {
     MultiProvider(
       providers: [
          ChangeNotifierProvider(create: (_) => SerieProvider()), 
-         // n'utilise pas MultiProvider pour l'instant, utilise juste ton App.
+        ChangeNotifeirProvider(create: (_) => FavorisProvider()),
       ],
       child: const MyApp(),
     ),

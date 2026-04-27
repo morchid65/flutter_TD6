@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../providers/serie_provider.dart'; 
 
 // TODO étape 3 : implémenter l'écran principal (liste des séries)
-class SerieListScreen extends StatelessWidget {
+class SerieListScreen extends StatefulWidget {
   const SerieListScreen({super.key});
 
   @override

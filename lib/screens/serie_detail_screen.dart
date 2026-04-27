@@ -16,18 +16,18 @@ class SerieDetailScreen extends StatelessWidget {
       body: FutureBuilder<Serie>(
         future: context.read<SerieProvider>().fetchSerieById(serieId),
         builder: (context, snapshot) {
-          if snapshot.connectionState == ConnexionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text('Erreur : $snapshot.error'));
-          }
-          
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator()); 
+          } 
+          if (snapshot.hasError) { 
+            return Center(child: Text('Erreur : ${snapshot.error}')); 
+          } 
+    
           final serie = snapshot.data!;
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child : Column(
-              crossAxisAlignement: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (serie.imageUrl != null)
                  Center(child: Image.network(serie.imageUrl!, height: 200)),
@@ -36,7 +36,18 @@ class SerieDetailScreen extends StatelessWidget {
                  Text('${serie.genre} . ${serie.status}'),
                  if (serie.note != null) Text('${serie.note!toStringAsFixed(1)}'),
                  const SizedBox(height: 8),
-                 Text(serie.synopsis),                
+                 Text(serie.synopsis),  
+                 const SizedBox(height: 16),
+                 Consumer<FavorisProvider>(
+                  builder: (context, favorisProvider, _) {
+                    final estFavori = favorisProvider.estFavori(serie.id);
+                    return ElevatedButton.icon(
+                      onPressed: () => favorisProvider.toggleFavori(serie),
+                      icon: Icon(estFavori ? Icons.favorite : Icons.favorite_border),
+                      label: Text(estFavori ? 'Retirer des favoris' : 'Ajouter aux favoris'),
+                    );
+                  },
+                 ),              
                  )
               ],
             );

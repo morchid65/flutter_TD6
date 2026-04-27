@@ -1,9 +1,18 @@
+import 'package:flutter/material.dart';
+import '../services/serie_api_service.dart';
+import '../models/serie.dart';
+
 class SerieProvider with ChangeNotifier {
     final SerieApiService _apiService = SerieApiService();
 
     List<Serie> _series = [];
-    bool isLoading => _isLoading;
-    string? get error => _error;
+    bool _isLoading = false;
+    String? _error;
+    
+
+    List<Serie> get series => _series;
+    bool get isLoading => _isLoading;
+    String? get error => _error;
 
     Future<void> fetchSeries() async {
         _isLoading = true;
@@ -18,7 +27,7 @@ class SerieProvider with ChangeNotifier {
             notifyListeners();
         }
     }
-    Future<Serie> fetchSeriesById (int id) async {
+    Future<Serie> fetchSerieById (int id) async {
         return _apiService.fetchSerieById(id);
     }
 }
