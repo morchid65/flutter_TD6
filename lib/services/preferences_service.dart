@@ -16,6 +16,7 @@ class PreferencesService {
 
     Future<void> saveFavoris(List<Serie> favoris) async {
         final prefs = await SharedPreferences.getInstance();
-        await prefs.setString(_favorisKey, jsonStr);
+        final String jsonData = jsonEncode(favoris.map((s) => s.toJson()).toList());
+        await prefs.setString(_favorisKey, jsonData);
     }
 }

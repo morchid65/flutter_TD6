@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart'; 
 import 'package:provider/provider.dart'; 
-import 'package:go_router/router.dart'; 
+import 'package:go_router/go_router.dart'; 
 import '../providers/serie_provider.dart'; 
-
-// TODO étape 3 : implémenter l'écran principal (liste des séries)
 
 class SerieListScreen extends StatefulWidget {
   const SerieListScreen({super.key});
@@ -19,6 +17,7 @@ class _SerieListScreenState extends State<SerieListScreen> {
       context.read<SerieProvider>().fetchSeries();
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +35,7 @@ class _SerieListScreenState extends State<SerieListScreen> {
         ],
       ),
       body: Consumer<SerieProvider>(
-        builder: context, provider, _) {
+        builder: (context, provider, _) {
           if (provider.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -49,16 +48,18 @@ class _SerieListScreenState extends State<SerieListScreen> {
               final serie = provider.series[index];
               return ListTile(
                 leading: serie.imageUrl != null 
-                ? Image.network(serie.imageUrl!, width: 50, fit: BoxFit.cover)
-                : const Icon(Icons.tv),
+                    ? Image.network(serie.imageUrl!, width: 50, fit: BoxFit.cover)
+                    : const Icon(Icons.tv),
                 title: Text(serie.nom),
-                subtitle: Text('${serie.note!.toStringAsFixed(1)}')
-                : null,
-                OnTap: () => context.go('/serie/${serie.id}'),
+                subtitle: serie.note != null 
+                    ? Text(serie.note!.toStringAsFixed(1)) 
+                    : null,
+                onTap: () => context.go('/serie/${serie.id}'),
               );
             },
           );
-        }
-    ) 
+        },
+      ),
+    ); 
   } 
 }

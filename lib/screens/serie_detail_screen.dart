@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart'; 
 import '../providers/serie_provider.dart'; 
 import '../models/serie.dart'; 
+import '../providers/favoris_provider.dart';
 
-// TODO étape 4 : implémenter l'écran de détail d'une série
 class SerieDetailScreen extends StatelessWidget {
   final int serieId;
 
@@ -22,23 +22,30 @@ class SerieDetailScreen extends StatelessWidget {
           if (snapshot.hasError) { 
             return Center(child: Text('Erreur : ${snapshot.error}')); 
           } 
+          if (!snapshot.hasData) {
+            return const Center(child: Text('Aucune donnée trouvée'));
+          }
     
           final serie = snapshot.data!;
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16),
-            child : Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (serie.imageUrl != null)
-                 Center(child: Image.network(serie.imageUrl!, height: 200)),
-                 const SizeBox(height: 16),
-                 Text(serie.nom, style: Theme.of(context.textTheme.headlineSmall),
-                 Text('${serie.genre} . ${serie.status}'),
-                 if (serie.note != null) Text('${serie.note!toStringAsFixed(1)}'),
-                 const SizedBox(height: 8),
-                 Text(serie.synopsis),  
-                 const SizedBox(height: 16),
-                 Consumer<FavorisProvider>(
+                  Center(child: Image.network(serie.imageUrl!, height: 200)),
+                const SizedBox(height: 16),
+                Text(
+                  serie.nom, 
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                Text('${serie.genre} • ${serie.statut}'),
+                if (serie.note != null) 
+                  Text('Note: ${serie.note!.toStringAsFixed(1)}/10'),
+                const SizedBox(height: 8),
+                Text(serie.synopsis),  
+                const SizedBox(height: 16),
+                Consumer<FavorisProvider>(
                   builder: (context, favorisProvider, _) {
                     final estFavori = favorisProvider.estFavori(serie.id);
                     return ElevatedButton.icon(
@@ -47,13 +54,12 @@ class SerieDetailScreen extends StatelessWidget {
                       label: Text(estFavori ? 'Retirer des favoris' : 'Ajouter aux favoris'),
                     );
                   },
-                 ),              
-                 )
+                ),              
               ],
-            );
-          ),
+            ),
+          );
         },
       ),
     );
   }
-}                                       
+}

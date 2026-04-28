@@ -1,20 +1,25 @@
-import 'dart:io';
+import 'dart:io'; 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'router.dart';
 import 'providers/serie_provider.dart';
 import 'providers/favoris_provider.dart';
-
+import 'providers/watchlist_provider.dart';
+import 'router.dart'; 
 
 // TODO étape 8 : importer WatchlistProvider
 
 void main() {
+  if (Platform.isMacOS || Platform.isWindows || Platform.isLinux) { 
+    sqfliteFfiInit(); 
+    databaseFactory = databaseFactoryFfi; 
+  } 
   runApp(
     MultiProvider(
       providers: [
          ChangeNotifierProvider(create: (_) => SerieProvider()), 
          ChangeNotifierProvider(create: (_) => FavorisProvider()),
+         ChangeNotifierProvider(create: (_) => WatchlistProvider()),  
       ],
       child: const MyApp(),
     ),
