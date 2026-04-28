@@ -20,7 +20,7 @@ class SerieProvider with ChangeNotifier {
         try {
             _series = await _apiService.fetchSeries();
         } catch (e) {
-            _error = 'Impossible de charger les series.'
+            _error = 'Impossible de charger les series.';
             _series = _apiService.getMockSeries();
         } finally {
             _isLoading = false;

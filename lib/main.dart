@@ -1,12 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:providers/favoris_provider.dart';
-import 'package:providers/serie_provider.dart.dart';
+import 'package:provider/provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'router.dart';
+import 'providers/serie_provider.dart';
+import 'providers/favoris_provider.dart';
 
-// TODO étape 3 : importer SerieProvider
-// TODO étape 5 : importer FavorisProvider
+
 // TODO étape 8 : importer WatchlistProvider
 
 void main() {
@@ -14,7 +14,7 @@ void main() {
     MultiProvider(
       providers: [
          ChangeNotifierProvider(create: (_) => SerieProvider()), 
-        ChangeNotifeirProvider(create: (_) => FavorisProvider()),
+         ChangeNotifierProvider(create: (_) => FavorisProvider()),
       ],
       child: const MyApp(),
     ),

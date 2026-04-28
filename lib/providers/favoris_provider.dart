@@ -17,7 +17,7 @@ class FavorisProvider with ChangeNotifier {
         notifyListeners();
     }
 
-    Future<void> toogleFavori(Serie serie) async {
+    Future<void> toggleFavori(Serie serie) async {
         if (_favoris.any((s) => s.id == serie.id)) {
             _favoris.removeWhere((s) => s.id == serie.id);
         } else {
@@ -27,5 +27,5 @@ class FavorisProvider with ChangeNotifier {
         notifyListeners();
     }
 
-    bool estFavori(int serieId) => _ favoris.any((s) => s.id == serieId);
+    bool estFavori(int serieId) => _favoris.any((s) => s.id == serieId);
 }

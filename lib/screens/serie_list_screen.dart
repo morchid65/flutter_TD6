@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart'; 
 import 'package:provider/provider.dart'; 
-import 'package:go_router/go_router.dart'; 
+import 'package:go_router/router.dart'; 
 import '../providers/serie_provider.dart'; 
 
 // TODO étape 3 : implémenter l'écran principal (liste des séries)
+
 class SerieListScreen extends StatefulWidget {
   const SerieListScreen({super.key});
-
   @override
   State<SerieListScreen> createState() => _SerieListScreenState();
 }
@@ -29,6 +29,10 @@ class _SerieListScreenState extends State<SerieListScreen> {
             icon: const Icon(Icons.favorite),
             onPressed: () => context.go('/favoris'),
           ),
+          IconButton(
+            icon: const Icon(Icons.bookmark),
+            onPressed: () => context.go('/watchlist'),
+          ),
         ],
       ),
       body: Consumer<SerieProvider>(
@@ -42,7 +46,7 @@ class _SerieListScreenState extends State<SerieListScreen> {
           return ListView.builder(
             itemCount: provider.series.length,
             itemBuilder: (context, index) {
-              final serie = provdier.series[index];
+              final serie = provider.series[index];
               return ListTile(
                 leading: serie.imageUrl != null 
                 ? Image.network(serie.imageUrl!, width: 50, fit: BoxFit.cover)
@@ -54,8 +58,7 @@ class _SerieListScreenState extends State<SerieListScreen> {
               );
             },
           );
-        },
-      ),
-    ); 
+        }
+    ) 
   } 
 }
